@@ -2,7 +2,7 @@ const express = require("express");
 const { sequelize, connectDB, createDatabaseIfNotExists, seedAdminUser } = require("./config");
 const router = require('./api/routes');
 
-require('./dbModel/index')
+require('./dbModel/index')(); // Initialize DB models
 
 const app = express();
 app.use(express.json());
