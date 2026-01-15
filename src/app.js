@@ -12,7 +12,7 @@ app.use("/users", userRoutes);
 
 
 app.get("/health-check", (req, res) => {
-    res.send("Hello World! Server is running.   🚀");
+    res.send("Hello World! Server is running.🚀");
 });
 
 const initApp = async () => {
