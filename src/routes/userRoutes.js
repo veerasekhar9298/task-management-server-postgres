@@ -9,13 +9,13 @@ const router = express.Router();
  */
 router.post("/", async (req, res) => {
     try {
-        const { name, email } = req.body;
+        const { name, email, role } = req.body;
 
         if (!name || !email) {
             return res.status(400).json({ message: "Name and email are required" });
         }
 
-        const user = await User.create({ name, email });
+        const user = await User.create({ name, email, role });
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });
