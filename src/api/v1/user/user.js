@@ -33,7 +33,11 @@ const createOne = async (req, res) => {
         }
 
         const user = await User.create({ name, email, role, password });
-        res.status(201).json(user);
+
+        const safeUser = user.get({ plain: true });
+        delete safeUser.password;
+
+        res.status(201).json(safeUser);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

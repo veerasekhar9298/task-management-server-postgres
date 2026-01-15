@@ -2,8 +2,7 @@ const express = require("express");
 const { sequelize, connectDB, createDatabaseIfNotExists, seedAdminUser } = require("./config");
 const router = require('./api/routes');
 
-// Import models BEFORE sync
-require("./dbModel/user/schema");
+require('./dbModel/index')
 
 const app = express();
 app.use(express.json());
