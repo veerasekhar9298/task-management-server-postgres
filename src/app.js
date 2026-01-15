@@ -2,6 +2,7 @@ const express = require("express");
 const createDatabaseIfNotExists = require("./config/createDatabase");
 const { sequelize, connectDB } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const seedAdminUser = require("./config/seedAdminUser");
 // Import models BEFORE sync
 require("./models/user");
 
@@ -25,6 +26,7 @@ const initApp = async () => {
     // Create tables
     await sequelize.sync({ alter: true });
     console.log("Tables synced");
+    await seedAdminUser();
 };
 
 initApp();
