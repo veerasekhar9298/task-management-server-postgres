@@ -21,4 +21,4 @@ const seedAdminUser = async () => {
     console.log("👑 Admin user created");
 };
 
-module.exports = seedAdminUser;
+module.exports = { seedAdminUser };

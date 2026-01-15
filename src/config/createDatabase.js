@@ -36,4 +36,4 @@ const createDatabaseIfNotExists = async () => {
     }
 };
 
-module.exports = createDatabaseIfNotExists;
+module.exports = { createDatabaseIfNotExists }
