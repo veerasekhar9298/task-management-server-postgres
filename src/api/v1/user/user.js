@@ -1,4 +1,4 @@
-const User = require("../../../models/user");
+const User = require("../../../dbModel/user/schema");
 
 
 const fetchAll = async (req, res) => {
@@ -26,13 +26,13 @@ const fetchOne = async (req, res) => {
 
 const createOne = async (req, res) => {
     try {
-        const { name, email, role } = req.body;
+        const { name, email, role, password } = req.body;
 
-        if (!name || !email) {
-            return res.status(400).json({ message: "Name and email are required" });
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "Name, email and password are required" });
         }
 
-        const user = await User.create({ name, email, role });
+        const user = await User.create({ name, email, role, password });
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });

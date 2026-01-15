@@ -3,16 +3,11 @@ const { sequelize, connectDB, createDatabaseIfNotExists, seedAdminUser } = requi
 const router = require('./api/routes');
 
 // Import models BEFORE sync
-require("./models/user");
+require("./dbModel/user/schema");
 
 const app = express();
 app.use(express.json());
 
-
-
-app.get("/health-check", (req, res) => {
-    res.send("Hello World! Server is running.🚀");
-});
 router(app);
 const initApp = async () => {
     //  Create DB if missing

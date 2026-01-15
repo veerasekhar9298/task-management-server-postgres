@@ -1,5 +1,4 @@
 const express = require("express");
-const User = require("../../../models/user");
 
 const userRoutesV1 = express.Router();
 const user = require("./user");

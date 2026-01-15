@@ -1,8 +1,8 @@
-const User = require("../models/user");
+const User = require("../dbModel/user/schema");
 
 const seedAdminUser = async () => {
     const adminEmail = "muthakaniveerashekahr@gmail.com";
-
+    const adminPassword = "Veera@1234";
     const existingAdmin = await User.findOne({
         where: { email: adminEmail },
     });
@@ -15,6 +15,7 @@ const seedAdminUser = async () => {
     await User.create({
         name: "veerashekhar",
         email: adminEmail,
+        password: adminPassword,
         role: "admin",
     });
 
