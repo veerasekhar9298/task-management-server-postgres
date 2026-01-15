@@ -16,19 +16,29 @@ const Task = sequelize.define("Task", {
         allowNull: true,
     },
     status: {
-        type: DataTypes.ENUM('todo', 'in_progress', 'completed'),
-        defaultValue: 'todo',
+        type: DataTypes.ENUM("todo", "in_progress", "completed"),
+        defaultValue: "todo",
         allowNull: false,
     },
     createdBy: {
         type: DataTypes.UUID,
         allowNull: false,
+        references: {
+            model: "Users",
+            key: "id",
+        },
     },
     assignedTo: {
         type: DataTypes.UUID,
         allowNull: true,
+        references: {
+            model: "Users",
+            key: "id",
+        },
     },
+}, {
+    tableName: "Tasks",
+    timestamps: true,
 });
-
 
 module.exports = Task;
