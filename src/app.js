@@ -1,20 +1,13 @@
 const express = require("express");
-const createDatabaseIfNotExists = require("./config/createDatabase");
-const { sequelize, connectDB } = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
-// Import models BEFORE sync
-require("./models/user");
+const { sequelize, connectDB, createDatabaseIfNotExists, seedAdminUser } = require("./config");
+const router = require('./api/routes');
+
+require('./dbModel/index')(); // Initialize DB models
 
 const app = express();
 app.use(express.json());
 
-app.use("/users", userRoutes);
-
-
-app.get("/health-check", (req, res) => {
-    res.send("Hello World! Server is running.🚀");
-});
-
+router(app);
 const initApp = async () => {
     //  Create DB if missing
     await createDatabaseIfNotExists();
@@ -25,6 +18,7 @@ const initApp = async () => {
     // Create tables
     await sequelize.sync({ alter: true });
     console.log("Tables synced");
+    await seedAdminUser();
 };
 
 initApp();

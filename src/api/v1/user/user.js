@@ -1,45 +1,16 @@
-const express = require("express");
-const User = require("../models/user");
+const User = require("../../../dbModel/user/schema");
 
-const router = express.Router();
 
-/**
- * @route   POST /users
- * @desc    Create a user
- */
-router.post("/", async (req, res) => {
-    try {
-        const { name, email } = req.body;
-
-        if (!name || !email) {
-            return res.status(400).json({ message: "Name and email are required" });
-        }
-
-        const user = await User.create({ name, email });
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-/**
- * @route   GET /users
- * @desc    Get all users
- */
-router.get("/", async (req, res) => {
+const fetchAll = async (req, res) => {
     try {
         const users = await User.findAll();
         res.json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+}
 
-/**
- * @route   GET /users/:id
- * @desc    Get user by ID
- */
-router.get("/:id", async (req, res) => {
+const fetchOne = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
 
@@ -51,13 +22,27 @@ router.get("/:id", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+}
 
-/**
- * @route   PUT /users/:id
- * @desc    Update user
- */
-router.put("/:id", async (req, res) => {
+const createOne = async (req, res) => {
+    try {
+        const { name, email, role, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "Name, email and password are required" });
+        }
+
+        const user = await User.create({ name, email, role, password });
+
+        const safeUser = user.get({ plain: true });
+        delete safeUser.password;
+
+        res.status(201).json(safeUser);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateOne = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
 
@@ -70,13 +55,8 @@ router.put("/:id", async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-});
-
-/**
- * @route   DELETE /users/:id
- * @desc    Delete user
- */
-router.delete("/:id", async (req, res) => {
+}
+const deleteOne = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
 
@@ -89,6 +69,13 @@ router.delete("/:id", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+}
 
-module.exports = router;
+
+module.exports = {
+    fetchAll,
+    fetchOne,
+    createOne,
+    updateOne,
+    deleteOne,
+}
